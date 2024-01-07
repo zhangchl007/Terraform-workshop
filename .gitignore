@@ -1,2 +1,2 @@
 .terraform/*
-providers.tf
+*/providers.tf
