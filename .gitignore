@@ -1,2 +1,3 @@
 .terraform/*
 */providers.tf
+terraform-basic-lab/terraform-vm01/providers.tf
