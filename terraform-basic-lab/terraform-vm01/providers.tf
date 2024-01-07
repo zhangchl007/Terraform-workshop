@@ -27,8 +27,8 @@ provider "azapi" {
 
 provider "azurerm" {
   features {}
-  subscription_id = "xxxxxxx"
-  tenant_id       = "yyyyyyy"
-  client_id       = "ccccccc"
-  client_secret   = "zzzzzzz"
+  subscription_id = "ffa067fd-36c1-4774-a161-7ebdac9a934f"
+  tenant_id       = "16b3c013-d300-468d-ac64-7eda0820b6d3"
+  client_id       = "ba681a28-1e4a-4bb7-862b-08b5a771e650"
+  client_secret   = "-fQ8Q~UkcX4tLI_RIJSbChOamKqXaCUGUTrLHblq"
 }
