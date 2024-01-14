@@ -20,10 +20,11 @@ resource "azapi_resource" "ssh_public_key" {
   parent_id = azurerm_resource_group.rg.id
 }
 
+/*
 resource "local_file" "private_key" {
     content  = jsondecode(azapi_resource_action.ssh_public_key_gen.output).privateKey
     filename = "myprivate.pem"
-}
+}*/
 
 output "key_data" {
   value = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
