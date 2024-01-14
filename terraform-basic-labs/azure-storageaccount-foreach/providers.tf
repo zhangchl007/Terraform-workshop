@@ -1,5 +1,6 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">=1.0"
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -18,7 +19,7 @@ terraform {
     resource_group_name  = "tfdemo"
     storage_account_name = "tfdemotfstate21052"
     container_name       = "tfvmdemo01"
-    key                  = "tfvm01demo.tfstate"
+    key                  = "azuresaforeachdemo.tfstate"
   }
 }
 
