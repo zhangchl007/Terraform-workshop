@@ -37,8 +37,8 @@ resource "azurerm_storage_account" "storage_account" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
-  name = random_string.storage_account_name.result
-
+  #name = random_string.storage_account_name.result
+  name = "tf${random_string.storage_account_name.result}"
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
