@@ -3,13 +3,13 @@
 - create storage account
 
 ```
-vi create-storage-account.sh
+vi tf-bootstrap.sh
 
 #!/bin/bash
 
 RESOURCE_GROUP_NAME=tfdemo
 STORAGE_ACCOUNT_NAME=tfdemotfstate$RANDOM
-CONTAINER_NAME=tfvmdemo01
+CONTAINER_NAME=tfstate$RANDOM
 
 # Create resource group
 az group create --name $RESOURCE_GROUP_NAME --location eastus
@@ -26,7 +26,7 @@ az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOU
 
 ```bash
 
-sh create-storage-account.sh
+sh tf-bootstrap.sh
 
 ```
 

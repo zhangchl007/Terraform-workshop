@@ -81,7 +81,7 @@ az account set --subscription "Demos-id"
 - Create a service principal
 
 ```
-az ad sp create-for-rbac --name cloudops --role Owner --scopes /subscriptions/7996451c-728c-4b55-87f3-dfa8aeac980e
+az ad sp create-for-rbac --name tfcloudops --role OwnerContributor --scopes /subscriptions/7996451c-728c-4b55-87f3-dfa8aeac980e
 
 ```
 - set the environment variables
