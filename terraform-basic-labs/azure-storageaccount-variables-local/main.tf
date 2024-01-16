@@ -14,6 +14,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
   name = "${local.rg_prefix}-${local.name_suffix}"
   #name     = random_pet.rg_name.id 
+  tags = var.resource_tags
 }
 
 # Generate random value for the storage account name
@@ -31,6 +32,7 @@ resource "azurerm_storage_account" "storage_account" {
 
   name = random_string.storage_account_name.result
 
+  tags = var.resource_tags
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
@@ -40,6 +42,8 @@ resource "azurerm_storage_account" "storage_account" {
   }
 }
 
+
+/*
 resource "azurerm_storage_blob" "example" {
   name                   = "index.html"
   storage_account_name   = azurerm_storage_account.storage_account.name
@@ -47,4 +51,18 @@ resource "azurerm_storage_blob" "example" {
   type                   = "Block"
   content_type           = "text/html"
   source                 = "index.html"
+}*/
+
+resource "azurerm_storage_blob" "example1" {
+  name                   = "index.html"
+  storage_account_name   = azurerm_storage_account.storage_account.name
+  storage_container_name = "$web"
+  type                   = "Block"
+  content_type           = "text/html"
+  source                 = "index.html"
+}
+
+moved {
+  from = azurerm_storage_blob.example
+  to   = azurerm_storage_blob.example1
 }
