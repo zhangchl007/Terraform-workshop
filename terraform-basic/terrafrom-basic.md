@@ -65,17 +65,23 @@ HCL (HashiCorp Configuration Language) Basic
         > The terraform refresh command updates state data to match the real-world condition of the managed resources. This is done automatically during plans and applies, but not when interacting with state directly
 
     * Forcing Re-creation of Resources
+```
         terraform apply -replace="azurerm_resource_group.rg"
         terraform apply -replace="azurerm_resource_group.rg,azurerm_virtual_network.vnet"
         terrafrom taint azurerm_resource_group.rg
         terrafrom untaint azurerm_resource_group.rg
+```
     * moving state
+```
         terraform state mv azurerm_resource_group.rg azurerm_resource_group.rg2
         terraform state rm azurerm_resource_group.rg
+```
     * Disaster Recovery
+```
         terraform state pull > terraform.tfstate
         terraform state push terraform.tfstate
         terraform force-unlock LOCK_ID
+```
         
    - terraform graph
    - terraform fmt
@@ -89,7 +95,7 @@ HCL (HashiCorp Configuration Language) Basic
    - terraform logout
 
 
-## ITesting Terraform
+## Testing Terraform
   - Terraform provides numerous testing capabilities to validate your infrastructure.
 
   - These testing capabilities fit into two main categories:
