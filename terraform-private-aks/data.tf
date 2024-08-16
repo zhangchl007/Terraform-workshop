@@ -40,7 +40,14 @@ resource "azurerm_virtual_machine_data_disk_attachment" "aks-disk-attachment" {
   lun                = "10"
   caching            = "ReadWrite"
 }*/
+
+data azurerm_subscription current {}
+data azurerm_client_config current {}
+
 data "azurerm_kubernetes_service_versions" "current" {
   location       = var.location
   version_prefix = var.kube_version_prefix
+}
+data "azuread_user" "current_user" {
+  object_id = data.azurerm_client_config.current.object_id
 }

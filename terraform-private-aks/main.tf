@@ -1,7 +1,3 @@
-#resource "azurerm_resource_group" "vnet" {
-#  name     = var.vnet_resource_group_name
-#  location = var.location
-#}
 
 resource "random_pet" "rg" {
   length = 1
@@ -35,20 +31,21 @@ module "kube_network" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name                    = "private-aks"
+  name                    = var.cluster_name
   location                = var.location
   kubernetes_version      = data.azurerm_kubernetes_service_versions.current.latest_version
   resource_group_name     = azurerm_resource_group.kube.name
-  dns_prefix              = "private-aks"
+  dns_prefix              = random_pet.rg.id
   private_cluster_enabled = true
 
   default_node_pool {
-    name           = "default"
+    name           = "systempool"
+    os_sku         = "AzureLinux"
     node_count     = var.nodepool_nodes_count
     vm_size        = var.nodepool_vm_size
     vnet_subnet_id = module.kube_network.subnet_ids["node-subnet"]
     pod_subnet_id  = module.kube_network.subnet_ids["pod-subnet"]
-
+    
   }
 
   identity {
@@ -78,24 +75,30 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "paas"{
+resource "azurerm_kubernetes_cluster_node_pool" "spotnodepool"{
 
-  name = "paas"
+  name = "spotnodepool"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.id
   vm_size = var.nodepool_vm_size
+  os_sku  = "AzureLinux"
   node_count = 3
+  #priority              = "Spot"
+  #eviction_policy       = "Delete"
+  #spot_max_price        = 0.2 # note: this is the "maximum" price
+  #node_labels = {
+  #  "kubernetes.azure.com/scalesetpriority" = "spot"
+  #}
+  #node_taints = [
+  #  "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
+  #]
   os_disk_size_gb = 512
-  os_type = "Linux"
+  #os_type = "Linux"
   vnet_subnet_id = module.kube_network.subnet_ids["node-subnet"]
   pod_subnet_id  = module.kube_network.subnet_ids["pod-subnet"]
   depends_on = [azurerm_kubernetes_cluster.k8s]
+  mode = "User"
 
 }
-#resource "azurerm_role_assignment" "netcontributor" {
-#  role_definition_name = "Network Contributor"
-#  scope                = module.kube_network.subnet_ids["node-subnet"]
-#  principal_id         = azurerm_kubernetes_cluster.k8s.identity[0].principal_id
-#}
 
 
 

@@ -15,9 +15,9 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "tfdemo"
-    storage_account_name = "tfdemotfstate21052"
-    container_name       = "tfvmdemo01"
-    key                  = "terraform.tfstate"
+    storage_account_name = "tfdemotfstate3645"
+    container_name       = "tfstate3643"
+    key                  = "tfaks.tfstate"
   }
 
   required_version = ">= 0.14"

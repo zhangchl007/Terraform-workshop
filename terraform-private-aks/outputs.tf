@@ -21,3 +21,11 @@ output "kube_config" {
 output "resource_group_name" {
   value = azurerm_resource_group.kube.name
 }
+
+output "object_id" {
+  value = data.azurerm_client_config.current.object_id
+}
+
+output "user_principal_name" {
+  value = data.azuread_user.current_user.user_principal_name
+}
