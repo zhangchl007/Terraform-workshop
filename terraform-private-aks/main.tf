@@ -84,7 +84,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "paas"{
   kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.id
   vm_size = var.nodepool_vm_size
   node_count = 3
-  os_disk_size_gb = 500
+  os_disk_size_gb = 512
   os_type = "Linux"
   vnet_subnet_id = module.kube_network.subnet_ids["node-subnet"]
   pod_subnet_id  = module.kube_network.subnet_ids["pod-subnet"]
