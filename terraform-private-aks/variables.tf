@@ -1,6 +1,6 @@
 variable "location" {
   description = "The resource group location"
-  default     = "West US 3"
+  default     = "West US 2"
 }
 
 #variable "vnet_resource_group_name" {
@@ -20,17 +20,17 @@ variable "kube_version_prefix" {
 
 variable "kube_resource_group_name" {
   description = "The resource group name to be created"
-  default     = "rg-aks-kubedemo"
+  default     = "rg-aks-tfdemo"
 }
 
 variable "nodepool_nodes_count" {
   description = "Default nodepool nodes count"
-  default     = 1
+  default     = 2
 }
 
 variable "nodepool_vm_size" {
   description = "Default nodepool VM size"
-  default     = "Standard_D2_v2"
+  default     = "Standard_D4_v3"
 }
 
 variable "network_dns_service_ip" {
@@ -56,6 +56,12 @@ variable "username" {
 
 variable "ssh_public_key" {
   default = "~/.ssh/id_rsa.pub"
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "AKS Cluster Name"
+  default     = "private-aks"
 }
 
 variable "dns_prefix" {
