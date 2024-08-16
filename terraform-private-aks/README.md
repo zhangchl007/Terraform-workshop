@@ -8,7 +8,7 @@ This is a Terraform script to create a private AKS cluster in Azure. The script 
 
 ```bash
 
-cat <<EOF > terraform.tfvars
+cat <<EOF > providers.tf
 
 terraform {
 

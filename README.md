@@ -54,7 +54,7 @@ This is a Terraform script for learning purposes.
 
 ```bash
 
-cat <<EOF > terraform.tfvars
+cat <<EOF > providers.tf
 
 terraform {
 
