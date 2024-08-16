@@ -3,6 +3,7 @@
 locals {
   prefix = var.demo_prefix
   public_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
+  private_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).privateKey
 
 }
 
@@ -50,6 +51,41 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+}
+
+resource "null_resource" "name" {
+  provisioner "local-exec" {
+    command = "echo hello >> hostname.txt"
+  }
+
+  provisioner "file" {
+  source      = "hostname.txt"
+  destination = "/tmp/hostname.txt"
+
+  connection {
+    type     = "ssh"
+    user     = "${var.username}"
+    host     = module.virtual_machine1.public_ip_address
+    private_key = "${local.private_key}"
+    timeout = "2m"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo touch /etc/motd",
+      "sudo chmod 777 /etc/motd",
+      "sudo echo 'Welcome to mydemo' > /etc/motd",
+    ]
+    connection {
+    type     = "ssh"
+    user     = "${var.username}"
+    host     = module.virtual_machine1.public_ip_address
+    private_key = "${local.private_key}"
+    timeout = "2m"
+    }
+  }
+  
 }
 
 module "virtual_machine1" {
