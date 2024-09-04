@@ -43,9 +43,12 @@ variable "network_service_cidr" {
   default     = "178.51.0.0/16"
 }
 
-variable "network_pod_cidr" {
-  description = "CNI pod cidr"
-  default     = "10.4.1.0/24"
+variable "address_space" {
+  description = "Vnet address_space"
+  type = list(string)
+
+  default = [ "10.4.0.0/22" ]
+
 }
 
 variable "username" {
