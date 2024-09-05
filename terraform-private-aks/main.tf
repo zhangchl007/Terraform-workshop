@@ -17,17 +17,8 @@ module "kube_network" {
   resource_group_name = azurerm_resource_group.kube.name
   location            = var.location
   vnet_name           = var.kube_vnet_name
-  address_space       = ["10.4.0.0/22"]
-  subnets = [
-    {
-      name : "node-subnet"
-      address_prefixes : ["10.4.0.0/24"]
-    },
-    {
-      name : "pod-subnet"
-      address_prefixes : ["10.4.1.0/24"]
-    }
-  ]
+  address_space       = var.address_space
+  subnets             = var.subnets
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
@@ -46,6 +37,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vnet_subnet_id = module.kube_network.subnet_ids["node-subnet"]
     pod_subnet_id  = module.kube_network.subnet_ids["pod-subnet"]
     
+  }
+
+  ingress_application_gateway {
+      gateway_name = module.kube_network.subnet_names["appgw-subnet"]
+      subnet_id    = module.kube_network.subnet_ids["appgw-subnet"]
   }
 
   identity {

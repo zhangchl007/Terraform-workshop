@@ -10,6 +10,13 @@ resource "azurerm_role_assignment" "aks_network" {
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
+ # Assign Network Contributor role to the AKS service principal for the Application Gateway subnet.
+resource "azurerm_role_assignment" "aks_appgw_subnet" {
+  principal_id   = azurerm_kubernetes_cluster.k8s.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  role_definition_name = "Network Contributor"
+  scope          = module.kube_network.subnet_ids["appgw-subnet"]
+}
+
 resource "azurerm_role_assignment" "aks_acr" {
   scope                = azurerm_container_registry.default.id
   role_definition_name = "AcrPull"

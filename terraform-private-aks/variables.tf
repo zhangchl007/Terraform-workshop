@@ -77,16 +77,24 @@ variable "subnets" {
   type = list(object({
     name             = string
     address_prefixes = list(string)
+    delegation       = string
   }))
 
   default = [
     {
       name : "node-subnet"
       address_prefixes : ["10.4.0.0/24"]
+      delegation       = ""
     },
     {
       name : "pod-subnet"
       address_prefixes : ["10.4.1.0/24"]
+      delegation       = "Microsoft.ContainerService/managedClusters"
+    },
+    {
+      name : "appgw-subnet"
+      address_prefixes : ["10.4.2.0/24"]
+      delegation       = ""
     }
   ]
 }
