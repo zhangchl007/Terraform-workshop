@@ -39,6 +39,9 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     
   }
 
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
+
   ingress_application_gateway {
       gateway_name = module.kube_network.subnet_names["appgw-subnet"]
       subnet_id    = module.kube_network.subnet_ids["appgw-subnet"]
@@ -95,6 +98,33 @@ resource "azurerm_kubernetes_cluster_node_pool" "spotnodepool"{
   mode = "User"
 
 }
+
+resource "null_resource" "wait_for_kubeconfig" {
+  provisioner "local-exec" {
+    command = " az account set --subscription ${data.azurerm_subscription.current.subscription_id} && az aks get-credentials --resource-group ${azurerm_resource_group.kube.name} --name ${azurerm_kubernetes_cluster.k8s.name} --overwrite-existing --admin"
+    working_dir = path.module
+  }
+  depends_on = [azurerm_kubernetes_cluster.k8s]
+}
+
+resource "local_file" "kubeconfig" {
+  content    = azurerm_kubernetes_cluster.k8s.kube_admin_config_raw
+
+  filename = "${path.module}/kubeconfig"
+  depends_on = [ null_resource.wait_for_kubeconfig ]
+}
+
+provider "kubernetes" {
+  config_path = local_file.kubeconfig.filename
+}
+
+provider "helm" {
+    kubernetes {
+      config_path = local_file.kubeconfig.filename
+    }
+}
+
+
 
 
 

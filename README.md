@@ -120,8 +120,10 @@ After you configure authentication with Azure, just init and apply (no inputs ar
 
 ```bash
 export ARM_USE_MSI=true
-export ARM_SUBSCRIPTION_ID= `az account show --query id -o tsv`
-export ARM_TENANT_ID = `az account show --query tenantId -o tsv`
+export ARM_SUBSCRIPTION_ID=`az account show --query id -o tsv`
+export ARM_TENANT_ID =`az account show --query tenantId -o tsv`
+export ARM_CLIENT_ID=`az account show --query user.name -o tsv` or client id
+export ARM_CLIENT_SECRET=`az account get-access-token --query accessToken -o tsv` or client secret
 export ARM_ACCESS_KEY=`az keyvault secret show --name terraform-backend-key --vault-name tfstatevault --query value -o tsv`
 
 ```
